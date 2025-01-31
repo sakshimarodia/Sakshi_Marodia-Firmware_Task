@@ -1,7 +1,7 @@
 #include <functions.h>
 
 /*Variable Definitions*/
-unsigned long DataTransmissionStartTime, DataTransmissionCurrentTime, DataTransmissionLastUpdateTime;
+unsigned long DataTransferStartTime, DataTransferCurrentTime, DataTransferLastUpdateTime;
 volatile unsigned long BitCounter = 0;
 float TotalDurationofTransmission, BitsperSecond;
 uint8_t ui8ReceivedByte, ui8StoredByte;
@@ -10,8 +10,8 @@ void ReceiveDataFromPC()
 {
     Serial.println("\nSend Data from PC.....");
 
-    DataTransmissionStartTime = millis();
-    DataTransmissionLastUpdateTime = DataTransmissionStartTime;
+    DataTransferStartTime = millis();
+    DataTransferLastUpdateTime = DataTransferStartTime;
     BitCounter = 0;
 
     for (int i = 0; i < DATA_SIZE; i++) 
@@ -25,19 +25,18 @@ void ReceiveDataFromPC()
         }
 
         BitCounter += 8;
-        BitTransmissionSpeed("Data Transmission Speed from PC to EEPROM in bits per second: ");
+        BitTransferSpeed("Data Transfer Speed from PC to EEPROM in bits per second: ");
     }
 
     Serial.println("\n***Data received from PC and stored in EEPROM successfully.***");
 }
 
-
 void SendDataToPC() 
 {
     Serial.println("\nSending stored data from EEPROM back to PC...\n");
 
-    DataTransmissionStartTime = millis();
-    DataTransmissionLastUpdateTime = DataTransmissionStartTime;
+    DataTransferStartTime = millis();
+    DataTransferLastUpdateTime = DataTransferStartTime;
     BitCounter = 0;
 
     char ReceivedText[DATA_SIZE + 1];  
@@ -50,31 +49,30 @@ void SendDataToPC()
         ReceivedText[i] = (char)ui8StoredByte;
 
         BitCounter += 8;
-        BitTransmissionSpeed("Data Transmission Speed from EEPROM to PC in bits per second: ");
+        BitTransferSpeed("Data Transfer Speed from EEPROM to PC in bits per second: ");
     }
-    Serial.println("\n***Data transmitted back to PC successfully.***\n");
+    Serial.println("\n***Data transferred back to PC successfully.***\n");
     Serial.println("\nBelow Text is received back in PC from EEPROM.\n");
     Serial.println(ReceivedText);
     
 }
 
-
-void BitTransmissionSpeed(const char *ptrtostring) 
+void BitTransferSpeed(const char *PtrtoString) 
 {
-    DataTransmissionCurrentTime = millis();
+    DataTransferCurrentTime = millis();
     
-    if (DataTransmissionCurrentTime - DataTransmissionLastUpdateTime >= 1000) 
+    if (DataTransferCurrentTime - DataTransferLastUpdateTime >= 1000) 
     { 
-        TotalDurationofTransmission = (DataTransmissionCurrentTime - DataTransmissionLastUpdateTime) / 1000.0; //converting ms to seconds
+        TotalDurationofTransmission = (DataTransferCurrentTime - DataTransferLastUpdateTime) / 1000.0; //converting ms to seconds
         BitsperSecond = BitCounter / TotalDurationofTransmission; //calculating bits per second
         
         Serial.print("\n");
-        Serial.print(ptrtostring);
+        Serial.print(PtrtoString);
         Serial.print(" ");
         Serial.print(BitsperSecond, 2);
         Serial.println(" bps\n");  
 
-        DataTransmissionLastUpdateTime = DataTransmissionCurrentTime;
+        DataTransferLastUpdateTime = DataTransferCurrentTime;
         BitCounter = 0; 
     }
 }

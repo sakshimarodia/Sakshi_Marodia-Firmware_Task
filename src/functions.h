@@ -9,7 +9,7 @@
 
 void ReceiveDataFromPC();  //function to receive data from PC
 void SendDataToPC();       //function to send data back to PC
-void BitTransmissionSpeed(const char *ptrtostring);  //Calculating the transmission speed of bits
+void BitTransferSpeed(const char *PtrtoString);  //Calculating the transmission speed of bits
 void EraseEEPROM() ; //Clearing EEPROM before uploading the data
 
 #endif
