@@ -5,9 +5,19 @@ volatile unsigned long BitCounter = 0;
 float TotalDurationofTransmission, BitsperSecond;
 uint8_t ui8ReceivedByte, ui8StoredByte;
 
+void EraseEEPROM() 
+{
+    Serial.println("\nPlease wait, EEPROM is getting erased.\n");
+    for (int i = 0; i < DATA_SIZE; i++) 
+    {
+        EEPROM.write(i, 0x00);
+    }
+    Serial.println("EEPROM Erased. Now sending data from PC"); 
+}
+
 void ReceiveDataFromPC() 
 {
-    Serial.println("\nSend Data from PC.....");
+    Serial.println("\nWaiting for data from PC.....");
 
     DataTransferStartTime = millis();
     DataTransferLastUpdateTime = DataTransferStartTime;
@@ -76,12 +86,3 @@ void BitTransferSpeed(const char *PtrtoString)
     }
 }
 
-void EraseEEPROM() 
-{
-    Serial.println("Please wait, EEPROM is getting erased.");
-    for (int i = 0; i < DATA_SIZE; i++) 
-    {
-        EEPROM.write(i, 0x00);
-    }
-    Serial.println("EEPROM Erased."); //to avoid missing data
-}
