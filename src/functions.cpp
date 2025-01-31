@@ -1,6 +1,5 @@
 #include <functions.h>
 
-/*Variable Definitions*/
 unsigned long DataTransferStartTime, DataTransferCurrentTime, DataTransferLastUpdateTime;
 volatile unsigned long BitCounter = 0;
 float TotalDurationofTransmission, BitsperSecond;
@@ -63,8 +62,8 @@ void BitTransferSpeed(const char *PtrtoString)
     
     if (DataTransferCurrentTime - DataTransferLastUpdateTime >= 1000) 
     { 
-        TotalDurationofTransmission = (DataTransferCurrentTime - DataTransferLastUpdateTime) / 1000.0; //converting ms to seconds
-        BitsperSecond = BitCounter / TotalDurationofTransmission; //calculating bits per second
+        TotalDurationofTransmission = (DataTransferCurrentTime - DataTransferLastUpdateTime) / 1000.0; 
+        BitsperSecond = BitCounter / TotalDurationofTransmission; 
         
         Serial.print("\n");
         Serial.print(PtrtoString);

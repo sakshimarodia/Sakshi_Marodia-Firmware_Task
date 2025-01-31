@@ -1,8 +1,7 @@
 #include <functions.h>
 
 void setup() {
-    Serial.begin(2400); //UART baud rate betwee
-    while (!Serial);
+    Serial.begin(2400); 
     EraseEEPROM();
 }
 
